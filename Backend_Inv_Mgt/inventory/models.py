@@ -19,8 +19,9 @@ class Staff(models.Model):
     fname = models.CharField(max_length=20)
     lname = models.CharField(max_length=20)
     sex = models.CharField(max_length=2, choices=GENDER)
-    phone = models.CharField(max_length=15)
     email = models.EmailField(max_length=100)
+    phone_number = models.CharField(max_length=20, blank=True)
+    address = models.CharField(max_length=200, blank=True)
 
     def _str_(self):
         return self.name
@@ -30,9 +31,8 @@ class Customer(models.Model):
     fname = models.CharField(max_length=20)
     lname = models.CharField(max_length=20)
     address = models.CharField(max_length=200)
-    phone = models.CharField(max_length=15)
-    sex = models.CharField(max_length=2, choices=GENDER)
-    email = models.EmailField(max_length=100)
+    phone_number = models.CharField(max_length=20, blank=True)
+    address = models.CharField(max_length=200, blank=True)
 
     def _str_(self):
         return self.name

@@ -162,7 +162,7 @@ a {
 .site-navbar {
   margin-bottom: 0px;
   z-index: 1999;
-  position: relative;
+  position: fixed;
   top: 0;
   width: 100%;
   background: #fff; }
