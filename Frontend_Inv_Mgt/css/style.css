@@ -1,7 +1,7 @@
 /* Base */
 body {
   line-height: 1.7;
-  color: #8c92a0;
+  color: #1f1f21;
   font-weight: 300;
   font-size: 16px; }
 
@@ -114,9 +114,9 @@ a {
   border-top: 1px solid #edf0f5 !important; }
 
 .site-footer {
-  padding: 6em 0; }
+  padding: 1em 0; }
   .site-footer ul li {
-    margin-bottom: 10px; }
+    margin-bottom: 5px; }
     .site-footer ul li a {
       color: #5c626e; }
       .site-footer ul li a:hover {
@@ -403,7 +403,7 @@ a {
     list-style: none;
     position: relative; }
     .site-mobile-menu .site-nav-wrap a {
-      padding: 10px 20px;
+      padding: 10px 10px;
       display: block;
       position: relative;
       color: #212529; }
@@ -496,7 +496,7 @@ a {
     font-size: 50px;
     font-weight: 900;
     color: #fff;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-transform: uppercase; }
     @media (min-width: 768px) {
       .site-blocks-cover h1 {

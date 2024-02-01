@@ -11,9 +11,6 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/magnific-popup.css">
   <link rel="stylesheet" href="css/jquery-ui.css">
-  <link rel="stylesheet" href="css/owl.carousel.min.css">
-  <link rel="stylesheet" href="css/owl.theme.default.min.css">
-  <link rel="stylesheet" href="css/aos.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -63,6 +60,10 @@
               </ul>
             </nav>
           </div>
+          <div>
+            <a href="login-signUp.html">Login/</a>
+            <a href="login-signUp.html">SignUp</a> 
+          </div>  
           <div class="icons">
             <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
             <a href="cart.html" class="icons-btn d-inline-block bag">
@@ -87,7 +88,7 @@
     <div class="site-section">
       <div class="container">
         
-        <div class="row">
+      <!--<div class="row">
           <div class="col-lg-6">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
             <div id="slider-range" class="border-primary"></div>
@@ -106,16 +107,16 @@
               <a class="dropdown-item" href="#">Price, high to low</a>
             </div>
           </div>
-        </div>
+        </div>-->
     
         <div class="row">
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <span class="tag">Sale</span>
+          <!--<span class="tag">Sale</span>
             <a href="shop-single.html"> <img src="images/product_01.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Bioderma</a></h3>
+            <h3 class="text-dark"><a href="shop-single.html">Bioderma</a></h3>-->
           </div>
 
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
+        <!--<div class="col-sm-6 col-lg-4 text-center item mb-4">
             <a href="shop-single.html"> <img src="images/product_02.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Chanca Piedra</a></h3>
           </div>
@@ -172,8 +173,49 @@
             <span class="tag">Sale</span>
             <a href="shop-single.html"> <img src="images/product_06.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Poo Pourri</a></h3>
-          </div>
+          </div>-->
 
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Medicine</th>
+                <th scope="col">Stock Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Supplements</td>
+                <td>Multivitamin</td>
+                <td>100</td>
+              </tr>
+              <tr>
+                <td>Vitamins</td>
+                <td>Vitamin A</td>
+                <td>50</td>
+              </tr>
+              <tr>
+                <td>Vitamins</td>
+                <td>Vitamin B</td>
+                <td>75</td>
+              </tr>
+              <tr>
+                <td>Vitamins</td>
+                <td>Vitamin C</td>
+                <td>80</td>
+              </tr>
+              <tr>
+                <td>Tea and Coffee</td>
+                <td>Green Tea</td>
+                <td>120</td>
+              </tr>
+              <tr>
+                <td>Diet and Nutrition</td>
+                <td>Protein Powder</td>
+                <td>85</td>
+              </tr>
+            </tbody>
+          </table>   
         </div>
         <div class="row mt-5">
           <div class="col-md-12 text-center">
@@ -197,11 +239,9 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-
             <div class="block-7">
               <h3 class="footer-heading mb-4">About Us</h3>
               <p>Dawa Pharmacy offers a wide range of medical supplies and medications, with knowledgeable staff available to help customers find what they need. Visit us today for high-quality products and excellent service.</p>
-
             </div>
 
           </div>
@@ -225,7 +265,6 @@
               </ul>
             </div>
 
-
           </div>
         </div>
         <div class="row pt-5 mt-5 text-center">
@@ -236,10 +275,8 @@
               <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
               with <i class="icon-heart" aria-hidden="true"></i> by <a href="" target="_blank"
                 class="text-primary">Rebecca</a>
-              
             </p>
           </div>
-
         </div>
       </div>
     </footer>
@@ -252,9 +289,19 @@
   <script src="js/owl.carousel.min.js"></script>
   <script src="js/jquery.magnific-popup.min.js"></script>
   <script src="js/aos.js"></script>
-
   <script src="js/main.js"></script>
 
+  <script>
+    $(document).ready(function(){
+      $("#sale-form").submit(function(e{
+        e.preventDefault();
+        var medicineId = $("#medicine-id").val();
+        var quantity = $("#quantity").val(
+        var newStockLevel = $(".stock-level-" + medicineId).html() - quantity;
+        $(".stock-level-" + medicineId).html(newStockLevel);
+      }
+    }
+  </script>
+   
 </body>
-
 </html>
