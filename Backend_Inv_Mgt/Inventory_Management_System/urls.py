@@ -30,7 +30,7 @@ from django.contrib.auth import views as auth
 from django.urls import include, path
 
 urlpatterns = [
-    path("/", include("inventory.urls")),
+    path("", include("inventory.urls")),
     path("admin/", admin.site.urls),
     path(
         "", auth.LoginView.as_view(template_name="inventory/login.html"), name="login"
@@ -40,5 +40,8 @@ urlpatterns = [
         auth.LogoutView.as_view(template_name="inventory/logout.html"),
         name="logout",
     ),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] 
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
