@@ -33,6 +33,20 @@ def index(request):
     }
     return render(request, "inventory/index.html", context)
 
+def index2(request):
+    context = {}
+    return render(request, "inventory/index2.html", context)
+
+
+def about(request):
+    context = {}
+    return render(request, "inventory/about.html", context)
+
+
+def contact(request):
+    context = {}
+    return render(request, "inventory/contact.html", context)
+
 
 @login_required
 def products(request):

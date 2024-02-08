@@ -70,17 +70,18 @@ class Supplier(models.Model):
 """
 
 
-from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import date
+from django.utils import timezone
 
 CATEGORY = (
-    ("Stationary", "Stationary"),
-    ("Electronics", "Electronics"),
-    ("Food", "Food"),
+    ("Supplements", "Supplements"),
+    ("Vitamins", "Vitamins"),
+    ("Diet and nutrition", "Diet and nutrition"),
+    ("Tea and coffee", "Tea and coffee")
 )
 
 class UserProfile(models.Model):
@@ -102,7 +103,7 @@ class Product(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY, null=True)
     quantity = models.PositiveIntegerField(null=True)
     description = models.CharField(max_length=200, null=True)
-    expiry_date = models.DateField()
+    expiry_date = models.DateField(default=timezone.now)
 
     def __str__(self) -> str:
         return self.name

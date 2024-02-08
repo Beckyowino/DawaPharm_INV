@@ -33,7 +33,7 @@ urlpatterns = [
     path("", include("inventory.urls")),
     path("admin/", admin.site.urls),
     path(
-        "", auth.LoginView.as_view(template_name="inventory/login.html"), name="login"
+        "login/", auth.LoginView.as_view(template_name="inventory/login.html"), name="login"
     ),
     path(
         "logout/",

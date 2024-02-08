@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 # inventory/admin.py
-from inventory.models import Product, Order, UserProfile
+from inventory.models import Product, Order, UserProfile, SalesInvoice
 
 admin.site.site_header = "Inventory Admin"
 
@@ -24,11 +24,12 @@ class OrderAdmin(admin.ModelAdmin):
 class UserProfileAdmin(admin.ModelAdmin):
     model = UserProfile
     list_display = ("user", "physical_address", "mobile", "picture")
-    list_filter = ["user"]
-    search_fields = ["user"]
+    # list_filter = ["user__username"]
+    search_fields = ["user__username"]
 
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 
+admin.site.register(SalesInvoice)
