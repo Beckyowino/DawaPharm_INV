@@ -17,5 +17,6 @@ urlpatterns = [
     path("users/", views.users, name="users"),
     path("user/", views.user, name="user"),
     path("register/", views.register, name="register"),
+    path("sales_report/", views.sales_report, name="sales_report"),
 ]
 

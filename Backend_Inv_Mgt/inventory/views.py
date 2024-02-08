@@ -89,3 +89,13 @@ def register(request):
     context = {"register": "Register", "form": form}
     return render(request, "inventory/register.html", context)
 
+@login_required
+def sales_report(request):
+    orders = Order.objects.filter(status='completed')  # Get only completed orders
+    total_sales = sum(order.total for order in orders)  # Calculate total sales
+    context = {
+        "title": "Sales Report",
+        "orders": orders,
+        "total_sales": total_sales,
+    }
+    return render(request, "inventory/sales_report.html", context)
