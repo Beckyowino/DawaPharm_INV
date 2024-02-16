@@ -1,0 +1,141 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+
+<!-- <!DOCTYPE html> -->
+<!-- <html lang="en"> -->
+
+<!-- <head> -->
+  <!-- <title>Dawa Pharmacy</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'inventory/fonts/icomoon/style.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/magnific-popup.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/aos.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/style.css' %}">
+  <link rel="icon" href="{% static 'inventory/dawa.jpg' %}" type="image/x-icon" /> -->
+<!-- </head> -->
+
+<!-- <body> -->
+{% block content %}
+  <div class="site-wrap">
+    {% static 'inventory/dawa2.jpg' as dawa2img %}
+
+    <div class="site-blocks-cover" style="background-image: url('{{dawa2img}}');">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 mx-auto order-lg-2 align-self-center">
+            <div class="site-block-cover-content text-center">
+              <h1>Welcome To Dawa Pharmacy</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="title-section text-center col-12">
+            <h2 class="text-uppercase">Testimonials</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 block-3 products-wrap">
+            <div class="nonloop-block-3 no-direction owl-carousel">       
+              <div class="testimony">
+                <blockquote>
+                 <p>&ldquo;Dawa Pharmacy has been a lifesaver for me. The staff is knowledgeable and always willing to help. I recommend Dawa Pharmacy for all your medical needs.&rdquo;</p>
+                </blockquote>
+                <p>&mdash; Kelly Wanjiru</p>
+              </div>
+        
+              <div class="testimony">
+                <blockquote>
+                  <p>&ldquo;I have been going to Dawa Pharmacy and have always been satisfied with their service. They carry a wide range of products and their prices are very reasonable.&rdquo;</p> 
+                </blockquote>     
+                <p>&mdash; Rebecca Amani</p>
+              </div>
+        
+              <div class="testimony">
+                <blockquote>
+                  <p>&ldquo;The customer service at Dawa Pharmacy is exceptional. They take the time to listen to my concerns and always provide helpful advice. I appreciate their professionalism.&rdquo;</p> 
+                </blockquote>
+                 <p>&mdash; Lucas Omondi</p>
+              </div>
+        
+              <div class="testimony">
+                <blockquote>
+                  <p>&ldquo;I was impressed with the cleanliness and organization of Dawa Pharmacy. The pharmacist was able to provided me with the medication I needed in a timely manner.&rdquo;</p>
+                </blockquote>
+                <p>&mdash; Andrew Adams</p>
+              </div>
+        
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+
+            <div class="block-7">
+              <h3 class="footer-heading mb-4">About Us</h3>
+              <p>Dawa Pharmacy offers a wide range of medical supplies and medications, with knowledgeable staff available to help customers find what they need. Visit us today for high-quality products and excellent service.</p>
+            </div>
+
+          </div>
+          <div class="col-lg-3 mx-auto mb-5 mb-lg-0">
+            <h3 class="footer-heading mb-4">Quick Links</h3>
+            <ul class="list-unstyled">
+              <li><a href="#">Supplements</a></li>
+              <li><a href="#">Vitamins</a></li>
+              <li><a href="#">Diet &amp; Nutrition</a></li>
+              <li><a href="#">Tea &amp; Coffee</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="block-5 mb-5">
+              <h3 class="footer-heading mb-4">Contact Info</h3>
+              <ul class="list-unstyled">
+                <li class="address">Umoja estate, Nairobi</li>
+                <li class="phone"><a href="tel://254702673683">+254702673683</a></li>
+                <li class="email">milicentrebecca@gmail.com</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <p>            
+              Copyright &copy; 2023&mdash;
+              <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
+              with <i class="icon-heart" aria-hidden="true"></i> by <a href="" target="_blank"
+                class="text-primary">Rebecca</a>              
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+{% endblock content %}
+
+  <!-- <script src="{% static 'inventory/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'inventory/js/jquery-ui.js' %}"></script>
+  <script src="{% static 'inventory/js/popper.min.js' %}"></script>
+  <script src="{% static 'inventory/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'inventory/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'inventory/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'inventory/js/aos.js' %}"></script>
+  <script src="{% static 'inventory/js/main.js' %}"></script> -->
+<!-- </body> -->
+<!-- </html> -->

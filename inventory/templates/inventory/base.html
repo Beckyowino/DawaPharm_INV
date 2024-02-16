@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Dawa Pharmacy{% endblock title %}</title>
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous"> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'inventory/fonts/icomoon/style.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/magnific-popup.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/aos.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/css/style.css' %}">
+  <link rel="icon" href="{% static 'inventory/dawa.jpg' %}" type="image/x-icon" />
+</head>
+
+<body>
+  {% include 'inventory/navbar.html' %}
+
+  <main style="margin-top: 80px;">
+    {% block content %}
+    {% endblock content %}
+  </main>
+
+  <div class="bg-light">
+    <footer class="py-3 my-4">
+      <p class="text-center text-muted">&copy; 2024 Inventory App, Inc.</p>
+    </footer>
+  </div>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script> -->
+  <script src="{% static 'inventory/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'inventory/js/jquery-ui.js' %}"></script>
+  <script src="{% static 'inventory/js/popper.min.js' %}"></script>
+  <script src="{% static 'inventory/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'inventory/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'inventory/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'inventory/js/aos.js' %}"></script>
+  <script src="{% static 'inventory/js/main.js' %}"></script>
+</body>
+</html>

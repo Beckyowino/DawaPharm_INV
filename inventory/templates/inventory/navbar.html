@@ -1,0 +1,129 @@
+{% comment %}
+{% if user.is_authenticated and user.is_staff %}
+<nav class="navbar navbar-expand-lg bg-light">
+<div class="container">
+    <a class="navbar-brand" href="{% url 'dash' %}">Dashboard</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'products' %}">Products</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{% url 'orders' %}">Orders</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{% url 'users' %}">Users</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{% url 'admin:index' %}">View Admin Panel</a>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'user' %}">Profile</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
+        </li>
+    </ul>
+    </div>
+</div>
+</nav>
+{% elif user.is_authenticated %}
+<nav class="navbar navbar-expand-lg bg-light">
+<div class="container">
+    <a class="navbar-brand" href="{% url 'dash' %}">Dashboard</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'products' %}">Products</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'orders' %}">Orders</a>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'user' %}">Profile</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
+        </li>
+    </ul>
+    </div>
+</div>
+</nav>
+{% else %}
+<nav class="navbar navbar-expand-lg bg-light">
+<div class="container">
+    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'register' %}">Register</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link active" href="{% url 'login' %}">Login</a>
+        </li>
+    </ul>
+    </div>
+</div>
+</nav>
+{% endif %}
+{% endcomment %}
+
+{% url 'home' as home_url %}
+{% url 'products' as products_url %}
+{% url 'about' as about_url %}
+{% url 'contact' as contact_url %}
+
+{% with request.path as path %}
+<div class="site-navbar py-2">
+    <div class="search-wrap">
+      <div class="container">
+        <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+        <form action="#" method="get">
+          <input type="text" name="search" class="form-control" placeholder="Search keyword and hit enter...">
+        </form>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="logo">
+          <div class="site-logo">
+            <a href="{{home_url}}" class="js-logo-clone">Dawa Pharmacy</a>
+          </div>
+        </div>
+        <div class="main-nav d-none d-lg-block">
+          <nav class="site-navigation text-right text-md-center" role="navigation">
+            <ul class="site-menu js-clone-nav d-none d-lg-block">
+              <li class="{% if path == home_url %}active{% endif %}"><a href="{{home_url}}">Home</a></li>
+              <!-- <li><a href="shop.html">Store</a></li> -->
+              <li class="{% if path == products_url %}active{% endif %}"><a href="{{products_url}}">Products</a></li>
+              <!-- <li class="has-children">
+                <a href="#">Dropdown</a>
+                <ul class="dropdown">
+                  <li><a href="#">Supplements</a></li>
+                  <li class="has-children">
+                    <a href="#">Vitamins</a>
+                  </li>
+                  <li><a href="#">Diet &amp; Nutrition</a></li>
+                  <li><a href="#">Tea &amp; Coffee</a></li>
+                </ul>
+              </li> -->
+              <li class="{% if path == about_url %}active{% endif %}"><a href="{{about_url}}">About</a></li>
+              <li class="{% if path == contact_url %}active{% endif %}"><a href="{{contact_url}}">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+       <div>
+        <a href="{% url 'login' %}">Login</a>
+        <span>/</span>
+        <a href="{% url 'register' %}">SignUp</a> 
+      </div>
+        <div class="icons">
+          <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
+        </div>
+      </div>
+    </div>
+</div>
+{% endwith %}
