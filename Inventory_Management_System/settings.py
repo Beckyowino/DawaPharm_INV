@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'Inventory_Management_System.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.db.backends.mysql",
         "NAME": "pharmacy",
         "USER": "Becca",
         "PASSWORD": "Becca_2002",
