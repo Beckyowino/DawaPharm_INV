@@ -35,7 +35,6 @@ class UserProfile(models.Model):
 def create_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
-
 class Product(models.Model):
     name = models.CharField(max_length=100, null=True)
     category = models.CharField(max_length=20, choices=CATEGORY, null=True)
@@ -54,7 +53,9 @@ class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     created_by = models.ForeignKey(User, models.CASCADE, null=True)
     order_quantity = models.PositiveIntegerField(null=True)
+    client = models.CharField(max_length=70, null=True)
     date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=15, choices=(('completed', 'Completed'), ('cancelled', 'Cancelled')), default='completed')
 
     def __str__(self) -> str:
         return f"{self.product} ordered quantity {self.order_quantity}"
@@ -70,6 +71,8 @@ class SalesInvoice(models.Model):
 
     def _str_(self):
         return self.invoice_no
+    
+
 
     
 

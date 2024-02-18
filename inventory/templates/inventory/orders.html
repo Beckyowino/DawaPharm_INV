@@ -4,6 +4,19 @@
 {% block content %}
 <div class="container">
   <div class="row">
+    <div class="col-md-4">
+      <form method="POST">
+        <h4>Create a New Order</h4>
+        <hr>
+        {% csrf_token %}
+        {{ form|crispy}}
+
+        <br>
+        <button type="submit" class="btn btn-primary">Create Order</button>
+      </form>
+    </div>
+    </div>
+
     <div class="col-md-8">
       <table class="table">
         <thead>
@@ -11,6 +24,7 @@
             <th scope="col">Ordered Product</th>
             <th scope="col">Created by</th>
             <th scope="col">Quantity</th>
+            <th scope="col">Client</th>
             <th scope="col">Order Date</th>
           </tr>
         </thead>
@@ -21,6 +35,7 @@
             <td>{{ order.product }}</td>
             <td>{{ order.created_by.username }}</td>
             <td>{{ order.order_quantity }}</td>
+            <td>{{ order.client }}</td>
             <td>{{ order.date }}</td>
           </tr>
           {% endfor %}
@@ -33,6 +48,7 @@
             <td>{{ order.product }}</td>
             <td>{{ order.created_by.username }}</td>
             <td>{{ order.order_quantity }}</td>
+            <td>{{ order.client }}</td>
             <td>{{ order.date }}</td>
           </tr>
           {% endif %}
@@ -41,16 +57,6 @@
         {% endif %}
       </table>
     </div>
-    <div class="col-md-4">
-      <form method="POST">
-        <h4>Create a New Order</h4>
-        <hr>
-        {% csrf_token %}
-        {{ form|crispy}}
-        <br>
-        <button type="submit" class="btn btn-primary">Create Order</button>
-      </form>
-    </div>
-  </div>
 </div>
+
 {% endblock %}

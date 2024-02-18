@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 from inventory.forms import UserRegistry, ProductForm, OrderForm
 from inventory.models import Product, Order
 
-
 @login_required
 def index(request):
     orders_user = Order.objects.all()
@@ -37,16 +36,13 @@ def index2(request):
     context = {}
     return render(request, "inventory/index2.html", context)
 
-
 def about(request):
     context = {}
     return render(request, "inventory/about.html", context)
 
-
 def contact(request):
     context = {}
     return render(request, "inventory/contact.html", context)
-
 
 @login_required
 def products(request):
@@ -60,7 +56,6 @@ def products(request):
         form = ProductForm()
     context = {"title": "Products", "products": products, "form": form}
     return render(request, "inventory/products.html", context)
-
 
 @login_required
 def orders(request):
@@ -78,19 +73,16 @@ def orders(request):
     context = {"title": "Orders", "orders": orders, "form": form}
     return render(request, "inventory/orders.html", context)
 
-
 @login_required
 def users(request):
     users = User.objects.all()
     context = {"title": "Users", "users": users}
     return render(request, "inventory/users.html", context)
 
-
 @login_required
 def user(request):
     context = {"profile": "User Profile"}
     return render(request, "inventory/user.html", context)
-
 
 def register(request):
     if request.method == "POST":
@@ -105,11 +97,15 @@ def register(request):
 
 @login_required
 def sales_report(request):
-    orders = Order.objects.filter(status='completed')  # Get only completed orders
     total_sales = sum(order.total for order in orders)  # Calculate total sales
+    completed_orders = Order.objects.filter(status='completed')  # Get only completed orders
+    cancelled_orders = Order.objects.filter(status='cancelled')  # Get only cancelled orders
+
     context = {
         "title": "Sales Report",
-        "orders": orders,
+        "completed_orders": completed_orders,
+        "cancelled_orders": cancelled_orders,
         "total_sales": total_sales,
     }
     return render(request, "inventory/sales_report.html", context)
+
