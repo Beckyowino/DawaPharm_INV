@@ -11,6 +11,7 @@
         <th>Customer</th>
         <th>Total</th>
         <th>Date</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
           <td>{{ order.customer }}</td>
           <td>{{ order.total }}</td>
           <td>{{ order.created_at }}</td>
+          <td>{{ order.status}}</td>
         </tr>
       {% empty %}
         <tr>

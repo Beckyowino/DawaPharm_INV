@@ -2,15 +2,21 @@
 {% url 'products' as products_url %}
 {% url 'about' as about_url %}
 {% url 'orders' as orders_url %}
+{% url 'search_results' as search_url %}
 
 {% with request.path as path %}
 <div class="site-navbar py-2">
     <div class="search-wrap">
       <div class="container">
         <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
-        <form action="#" method="get">
+        <!--<form action="#" method="get">
           <input type="text" name="search" class="form-control" placeholder="Search keyword and hit enter...">
+        </form>-->
+        <form id="search-form" action="{{search_url}}" method="GET">
+           <input type="text" name="query" placeholder="Search products..." autocomplete="off">
+          <button type="submit">Search</button>
         </form>
+      
       </div>
     </div>
 

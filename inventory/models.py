@@ -35,6 +35,7 @@ class UserProfile(models.Model):
 def create_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+
 class Product(models.Model):
     name = models.CharField(max_length=100, null=True)
     category = models.CharField(max_length=20, choices=CATEGORY, null=True)

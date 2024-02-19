@@ -26,6 +26,8 @@
             <th scope="col">Quantity</th>
             <th scope="col">Client</th>
             <th scope="col">Order Date</th>
+            <th scope="col">Status</th>
+
           </tr>
         </thead>
         {% if user.is_staff and user.is_superuser %}
@@ -37,6 +39,8 @@
             <td>{{ order.order_quantity }}</td>
             <td>{{ order.client }}</td>
             <td>{{ order.date }}</td>
+            <td>{{ order.status}}</td>
+ 
           </tr>
           {% endfor %}
         </tbody>
@@ -50,6 +54,8 @@
             <td>{{ order.order_quantity }}</td>
             <td>{{ order.client }}</td>
             <td>{{ order.date }}</td>
+            <td>{{ order.status }}</td>
+
           </tr>
           {% endif %}
           {% endfor %}

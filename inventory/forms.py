@@ -5,8 +5,6 @@ from django.contrib.auth.forms import UserCreationForm
 from inventory.models import Product, Order
 from django.core.exceptions import ValidationError
 
-
-
 class UserRegistry(UserCreationForm):
     email = forms.EmailField()
 
@@ -27,7 +25,6 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ["name", "category", "quantity", "description"]
 
-        
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
@@ -44,3 +41,5 @@ class OrderForm(forms.ModelForm):
                 raise ValidationError(
                     " The order is above the stock level"
                 )
+            
+

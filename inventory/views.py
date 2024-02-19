@@ -98,8 +98,17 @@ def register(request):
 @login_required
 def sales_report(request):
     total_sales = sum(order.total for order in orders)  # Calculate total sales
-    completed_orders = Order.objects.filter(status='completed')  # Get only completed orders
-    cancelled_orders = Order.objects.filter(status='cancelled')  # Get only cancelled orders
+    #completed_orders = Order.objects.filter(status='completed') Get only completed orders
+    #cancelled_orders = Order.objects.filter(status='cancelled')  Get only cancelled orders
+    def cancelled_orders():
+    # ... (logic to filter cancelled orders)
+        cancelled_orders = Order.objects.filter(status='cancelled')  # Assuming this retrieves cancelled orders
+        return cancelled_orders
+    
+    def completed_orders():
+    # ... (logic to filter cancelled orders)
+        completed_orders = Order.objects.filter(status='completed')  # Assuming this retrieves cancelled orders
+        return completed_orders
 
     context = {
         "title": "Sales Report",
@@ -109,3 +118,12 @@ def sales_report(request):
     }
     return render(request, "inventory/sales_report.html", context)
 
+def search(request):
+    if request.method == 'GET':
+        query = request.GET.get('query')
+        if query:  # Check if a query was submitted
+            results = Product.objects.filter(name__icontains=query)  # Adjust filtering criteria
+            context = {'search_query': query, 'results': results}
+            return render(request, 'search_results.html', context)
+    else:
+        return render(request, 'index.html')  # Redirect to homepage or appropriate page
