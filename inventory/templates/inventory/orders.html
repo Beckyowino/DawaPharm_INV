@@ -24,6 +24,7 @@
             <th scope="col">Ordered Product</th>
             <th scope="col">Created by</th>
             <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
             <th scope="col">Client</th>
             <th scope="col">Order Date</th>
             <th scope="col">Status</th>
@@ -37,6 +38,7 @@
             <td>{{ order.product }}</td>
             <td>{{ order.created_by.username }}</td>
             <td>{{ order.order_quantity }}</td>
+            <td>Sh{{ order.total }}</td>
             <td>{{ order.client }}</td>
             <td>{{ order.date }}</td>
             <td>{{ order.status}}</td>
@@ -52,6 +54,7 @@
             <td>{{ order.product }}</td>
             <td>{{ order.created_by.username }}</td>
             <td>{{ order.order_quantity }}</td>
+            <td>{{ order.total }}</td>
             <td>{{ order.client }}</td>
             <td>{{ order.date }}</td>
             <td>{{ order.status }}</td>

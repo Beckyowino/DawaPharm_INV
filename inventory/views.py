@@ -1,15 +1,10 @@
-"""from django.shortcuts import render
-from django.views.generic import TemplateView
-
-class Index(TemplateView):
-    template_name = 'inventory/index2.html'"""
-
 # inventory/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from inventory.forms import UserRegistry, ProductForm, OrderForm
 from inventory.models import Product, Order
+from django.db.models import Sum
 
 @login_required
 def index(request):
@@ -54,7 +49,8 @@ def products(request):
             return redirect("products")
     else:
         form = ProductForm()
-    context = {"title": "Products", "products": products, "form": form}
+    context = {"title": "Products", "products": products, "form": form, "prices": {product.name: product.price for product in products}
+            }
     return render(request, "inventory/products.html", context)
 
 @login_required
@@ -95,35 +91,45 @@ def register(request):
     context = {"register": "Register", "form": form}
     return render(request, "inventory/register.html", context)
 
+def completed_orders():
+    return Order.objects.filter(status='completed')
+
+def cancelled_orders():
+    return Order.objects.filter(status='cancelled')
+
 @login_required
 def sales_report(request):
-    total_sales = sum(order.total for order in orders)  # Calculate total sales
-    #completed_orders = Order.objects.filter(status='completed') Get only completed orders
-    #cancelled_orders = Order.objects.filter(status='cancelled')  Get only cancelled orders
-    def cancelled_orders():
-    # ... (logic to filter cancelled orders)
-        cancelled_orders = Order.objects.filter(status='cancelled')  # Assuming this retrieves cancelled orders
-        return cancelled_orders
-    
-    def completed_orders():
-    # ... (logic to filter cancelled orders)
-        completed_orders = Order.objects.filter(status='completed')  # Assuming this retrieves cancelled orders
-        return completed_orders
+    total_sales = sum(order.total for order in Order.objects.all())  # Calculate total sales
+    orders_by_date = Order.objects.order_by('date').values('date').annotate(total=Sum('total'))  # Group orders by date and calculate total sales for each date
+    completed_orders_queryset = completed_orders()  # Get completed orders
+    cancelled_orders_queryset = cancelled_orders()  # Get cancelled orders
+    prices = {product.name: product.price for product in Product.objects.all()}
 
     context = {
         "title": "Sales Report",
-        "completed_orders": completed_orders,
-        "cancelled_orders": cancelled_orders,
+        "orders_by_date": orders_by_date,
+        "completed_orders": completed_orders_queryset,
+        "cancelled_orders": cancelled_orders_queryset,
         "total_sales": total_sales,
+        "prices": prices,
+
     }
     return render(request, "inventory/sales_report.html", context)
 
-def search(request):
-    if request.method == 'GET':
-        query = request.GET.get('query')
-        if query:  # Check if a query was submitted
-            results = Product.objects.filter(name__icontains=query)  # Adjust filtering criteria
-            context = {'search_query': query, 'results': results}
-            return render(request, 'search_results.html', context)
+@login_required
+def product_create(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("products")
     else:
-        return render(request, 'index.html')  # Redirect to homepage or appropriate page
+        form = ProductForm()
+    context = {"title": "Create Product", "form": form}
+    return render(request, "inventory/product_form.html", context)
+
+@login_required
+def product_delete(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    product.delete()
+    return redirect("products")

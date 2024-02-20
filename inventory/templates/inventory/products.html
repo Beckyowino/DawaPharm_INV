@@ -10,6 +10,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Category</th>
                         <th scope="col">Description</th>
@@ -19,14 +20,25 @@
                     {% for product in products %}
                     <tr>
                         <td>{{ product.name }}</td>
+                        <td>{{ prices[product.name] }}</td>
                         <td>{{ product.quantity }}</td>
                         <td>{{ product.category }}</td>
                         <td>{{ product.description }}</td>
+                        <td>
+                            <a href="{% url 'product-edit' product.id %}" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="{% url 'product-delete' product.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                          </td>                      
                     </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="5">No products found.</td>
+                    </tr>            
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<a href="{% url 'product-create' %}" class="btn btn-success btn-lg">Create New Product</a>
+
 {% endblock %}

@@ -1,12 +1,3 @@
-# class Supplier(models.Model):
-#     name = models.CharField(max_length=100)
-#     address = models.CharField(max_length=200)
-#     phone = models.CharField(max_length=15)
-#     email = models.EmailField(max_length=100)
-
-#     def _str_(self):
-#         return self.name
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -41,7 +32,8 @@ class Product(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY, null=True)
     quantity = models.PositiveIntegerField(null=True)
     description = models.CharField(max_length=200, null=True)
-    expiry_date = models.DateField(default=timezone.now)
+    expiry_date = models.DateField(default=timezone.now, null=True)
+    price= models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     def __str__(self) -> str:
         return self.name
@@ -51,23 +43,31 @@ class Product(models.Model):
         return self.expiry_date < date.today()
 
 class Order(models.Model):
+    STATUS_CHOICES = [
+        ('created', 'Created'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-    created_by = models.ForeignKey(User, models.CASCADE, null=True)
-    order_quantity = models.PositiveIntegerField(null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    order_quantity = models.PositiveIntegerField(default=0)
     client = models.CharField(max_length=70, null=True)
     date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=15, choices=(('completed', 'Completed'), ('cancelled', 'Cancelled')), default='completed')
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self) -> str:
-        return f"{self.product} ordered quantity {self.order_quantity}"
-    
+        #return f"{self.product} ordered quantity {self.order_quantity}"
+        return f"Order {self.id} for {self.product.name}"
+
 class SalesInvoice(models.Model):
     invoice_no = models.CharField(max_length=100, unique=True)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
-    medicine = models.ForeignKey(Product, on_delete=models.CASCADE)
+    client = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def _str_(self):

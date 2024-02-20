@@ -1,9 +1,12 @@
 {% extends 'inventory/base.html' %}
 <h1>Search Results for "{{ search_query }}"</h1>
 {% if results %}
+
     <ul>
         {% for product in results %}
-            <li><a href="{% url 'search_results' %}">{{ product.name }}</a></li>
+            <li>
+                <a href="{% url 'products' product.name %}">{{ product.name }}</a>
+                </li>
         {% endfor %}
     </ul>
 {% else %}

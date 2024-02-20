@@ -19,11 +19,10 @@ class UserRegistry(UserCreationForm):
             "password2",
         ]
 
-
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "category", "quantity", "description"]
+        fields = ["name", "category", "quantity", "description", "price", "expiry_date" ]
 
 class OrderForm(forms.ModelForm):
     class Meta:
