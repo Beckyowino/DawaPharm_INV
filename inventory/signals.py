@@ -5,7 +5,6 @@ from django.conf import settings
 from inventory.models import Order
 from inventory.models import User
 
-
 @receiver(post_save, sender=Order)
 def my_handler(sender, instance, **kwargs):
     # order = kwargs['instance']

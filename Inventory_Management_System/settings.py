@@ -154,3 +154,4 @@ EMAIL_HOST_USER = "milicentrebecca@gmail.com"
 EMAIL_HOST_PASSWORD = "pjwc creb ohyo ztyj"
 
 MIN_STOCK_QUANTITY = 4
+EMAIL_SUPPLIER = "becca.owino@gmail.com"

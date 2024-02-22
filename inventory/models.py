@@ -33,7 +33,7 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(null=True)
     description = models.CharField(max_length=200, null=True)
     expiry_date = models.DateField(default=timezone.now, null=True)
-    price= models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    price= models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     def __str__(self) -> str:
         return self.name
@@ -60,6 +60,11 @@ class Order(models.Model):
     def __str__(self) -> str:
         #return f"{self.product} ordered quantity {self.order_quantity}"
         return f"Order {self.id} for {self.product.name}"
+
+    def get_total(self):
+        if self.product:
+            return self.product.price * self.order_quantity            
+        return 0
 
 class SalesInvoice(models.Model):
     invoice_no = models.CharField(max_length=100, unique=True)

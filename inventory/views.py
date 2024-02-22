@@ -42,6 +42,9 @@ def contact(request):
 @login_required
 def products(request):
     products = Product.objects.all()
+    search = request.GET.get("search", "")
+    if search:
+        products = products.filter(name__icontains=search).order_by('-id')
     if request.method == "POST":
         form = ProductForm(request.POST)
         if form.is_valid():
@@ -49,9 +52,14 @@ def products(request):
             return redirect("products")
     else:
         form = ProductForm()
-    context = {"title": "Products", "products": products, "form": form, "prices": {product.name: product.price for product in products}
-            }
-    return render(request, "inventory/products.html", context)
+
+        prices = {product.name: product.price for product in products}
+
+        context = {
+            "title": "Products", "products": products, "form": form, "prices": prices,
+            "search": search,
+        }
+        return render(request, "inventory/products.html", context)
 
 @login_required
 def orders(request):
@@ -99,11 +107,12 @@ def cancelled_orders():
 
 @login_required
 def sales_report(request):
-    total_sales = sum(order.total for order in Order.objects.all())  # Calculate total sales
-    orders_by_date = Order.objects.order_by('date').values('date').annotate(total=Sum('total'))  # Group orders by date and calculate total sales for each date
+    orders_by_date = Order.objects.order_by('date')#.annotate(total=Sum('total'))  # Group orders by date and calculate total sales for each date
     completed_orders_queryset = completed_orders()  # Get completed orders
     cancelled_orders_queryset = cancelled_orders()  # Get cancelled orders
     prices = {product.name: product.price for product in Product.objects.all()}
+
+    total_sales = sum(order.get_total() for order in orders_by_date)  # Calculate total sales
 
     context = {
         "title": "Sales Report",
@@ -112,24 +121,6 @@ def sales_report(request):
         "cancelled_orders": cancelled_orders_queryset,
         "total_sales": total_sales,
         "prices": prices,
-
     }
     return render(request, "inventory/sales_report.html", context)
 
-@login_required
-def product_create(request):
-    if request.method == "POST":
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("products")
-    else:
-        form = ProductForm()
-    context = {"title": "Create Product", "form": form}
-    return render(request, "inventory/product_form.html", context)
-
-@login_required
-def product_delete(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    product.delete()
-    return redirect("products")
