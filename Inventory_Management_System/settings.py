@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent   
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'inventory',
     'crispy_forms',
     'crispy_bootstrap5',
-    'bootstrap4',
-
+    'bootstrap4'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -144,7 +143,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'user'
 LOGOUT_REDIRECT_URL = 'user'
-LOGIN_URL = '/login/'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
@@ -154,4 +152,4 @@ EMAIL_HOST_USER = "milicentrebecca@gmail.com"
 EMAIL_HOST_PASSWORD = "pjwc creb ohyo ztyj"
 
 MIN_STOCK_QUANTITY = 4
-EMAIL_SUPPLIER = "becca.owino@gmail.com"
+EMAIL_SUPPLIER = "7430.2020@students.ku.ac.ke"

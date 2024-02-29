@@ -1,13 +1,11 @@
 from django.contrib import admin
-from django.conf import settings
-from django.core.mail import send_mail
-from inventory.models import Order
 
 # Register your models here.
 # inventory/admin.py
 from inventory.models import Product, Order, UserProfile, SalesInvoice
 
 admin.site.site_header = "Inventory Admin"
+
 
 class ProductAdmin(admin.ModelAdmin):
     model = Product
@@ -50,8 +48,8 @@ class UserProfileAdmin(admin.ModelAdmin):
     # list_filter = ["user__username"]
     search_fields = ["user__username"]
 
-
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
+
 admin.site.register(SalesInvoice)

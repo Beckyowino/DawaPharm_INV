@@ -19,6 +19,7 @@ class UserRegistry(UserCreationForm):
             "password2",
         ]
 
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
