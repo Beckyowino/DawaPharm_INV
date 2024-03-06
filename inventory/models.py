@@ -1,19 +1,9 @@
-# class Supplier(models.Model):
-#     name = models.CharField(max_length=100)
-#     address = models.CharField(max_length=200)
-#     phone = models.CharField(max_length=15)
-#     email = models.EmailField(max_length=100)
-
-#     def _str_(self):
-#         return self.name
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import date
 from django.utils import timezone
-
 
 CATEGORY = (
     ("Supplements", "Supplements"),
@@ -80,7 +70,3 @@ class SalesInvoice(models.Model):
 
     def _str_(self):
         return self.invoice_no
-
-    
-
-

@@ -2,9 +2,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import F
 from inventory.forms import UserRegistry, ProductForm, OrderForm
 from inventory.models import Product, Order
 from django.db.models import Sum
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+import openpyxl
+
 
 @login_required
 def index(request):
@@ -30,6 +35,7 @@ def index(request):
 def index2(request):
     context = {}
     return render(request, "inventory/index2.html", context)
+
 
 def about(request):
     context = {}
@@ -107,20 +113,48 @@ def cancelled_orders():
 
 @login_required
 def sales_report(request):
-    orders_by_date = Order.objects.order_by('date')#.annotate(total=Sum('total'))  # Group orders by date and calculate total sales for each date
-    completed_orders_queryset = completed_orders()  # Get completed orders
-    cancelled_orders_queryset = cancelled_orders()  # Get cancelled orders
-    prices = {product.name: product.price for product in Product.objects.all()}
-
+    orders_by_date = Order.objects.order_by('date')
     total_sales = sum(order.get_total() for order in orders_by_date)  # Calculate total sales
-
+    
     context = {
         "title": "Sales Report",
         "orders_by_date": orders_by_date,
-        "completed_orders": completed_orders_queryset,
-        "cancelled_orders": cancelled_orders_queryset,
-        "total_sales": total_sales,
-        "prices": prices,
+        "total_sales": total_sales
+
     }
-    return render(request, "inventory/sales_report.html", context)
+    if request.method == "POST" and request.POST.get("download_excel"):
+        return generate_sales_report(request, total_sales)
+    else:
+        # Return an HttpResponse if the request method is not POST
+        return render(request, "inventory/sales_report.html", context)
+
+def generate_sales_report(request, total_sales):
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="mydata.xlsx"'
+
+    workbook = openpyxl.Workbook()
+    workbook.iso_dates = True
+    worksheet = workbook.active
+    worksheet.title = 'My Data'
+
+    # Write header row
+    header = ['ID', 'Product', 'Quantity', 'Price', 'Total', 'Date', 'Status']
+    for col_num, column_title in enumerate(header, 1):
+        cell = worksheet.cell(row=1, column=col_num)
+        cell.value = column_title
+
+    # Write data rows
+    queryset = Order.objects.all().annotate(
+        total=F('order_quantity')*F('product__price')
+        ).values_list("id", "product", "order_quantity", "product__price", "total", "date" ,"status")
+    for row_num, row in enumerate(queryset, 1):
+        for col_num, cell_value in enumerate(row, 1):
+            if col_num == 6:
+                cell_value = cell_value.replace(tzinfo=None)
+            cell = worksheet.cell(row=row_num+1, column=col_num)
+            cell.value = cell_value
+
+    workbook.save(response)
+
+    return response 
 

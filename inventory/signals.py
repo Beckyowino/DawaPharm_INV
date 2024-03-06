@@ -9,14 +9,14 @@ from inventory.models import User
 def my_handler(sender, instance, **kwargs):
     # order = kwargs['instance']
     order = instance
-    
+
     # Update the stock quantity
     order.product.quantity = order.product.quantity - order.order_quantity
     order.product.save()
 
     # Notify phamarcist
     if order.product.quantity <= settings.MIN_STOCK_QUANTITY:
-        pharmacist = User.objects.filter(groups__name__iexact='PharmAcist').first()
+        pharmacist = User.objects.filter(groups__name__iexact='Pharmacist').first()
         subject = f"PRODUCT '{order.product.name}' STOCK IS LOW"
         message = f"Product '{order.product.name}' is running low. Current quantity is {order.product.quantity}."
 
@@ -28,6 +28,3 @@ def my_handler(sender, instance, **kwargs):
             fail_silently=False,
 
         )
-
-
-

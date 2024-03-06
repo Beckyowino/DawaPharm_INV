@@ -145,11 +145,13 @@ LOGIN_REDIRECT_URL = 'user'
 LOGOUT_REDIRECT_URL = 'user'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "milicentrebecca@gmail.com"
-EMAIL_HOST_PASSWORD = "pjwc creb ohyo ztyj"
+EMAIL_HOST_PASSWORD = "pjwccrebohyoztyj"
 
 MIN_STOCK_QUANTITY = 4
 EMAIL_SUPPLIER = "7430.2020@students.ku.ac.ke"
