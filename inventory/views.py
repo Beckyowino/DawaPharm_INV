@@ -7,8 +7,7 @@ from inventory.forms import UserRegistry, ProductForm, OrderForm
 from inventory.models import Product, Order
 from django.db.models import Sum
 from django.http import HttpResponse
-from reportlab.pdfgen import canvas
-import openpyxl
+import openpyxl, datetime
 
 
 @login_required
@@ -138,7 +137,7 @@ def generate_sales_report(request, total_sales):
     worksheet.title = 'My Data'
 
     # Write header row
-    header = ['ID', 'Product', 'Quantity', 'Price', 'Total', 'Date', 'Status']
+    header = ['Order ID', 'Product', 'Quantity', 'Price', 'Total', 'Date', 'Status']
     for col_num, column_title in enumerate(header, 1):
         cell = worksheet.cell(row=1, column=col_num)
         cell.value = column_title
@@ -146,14 +145,15 @@ def generate_sales_report(request, total_sales):
     # Write data rows
     queryset = Order.objects.all().annotate(
         total=F('order_quantity')*F('product__price')
-        ).values_list("id", "product", "order_quantity", "product__price", "total", "date" ,"status")
+        ).values_list("id", "product__name", "order_quantity", "product__price", "total", "date" ,"status")
     for row_num, row in enumerate(queryset, 1):
         for col_num, cell_value in enumerate(row, 1):
             if col_num == 6:
                 cell_value = cell_value.replace(tzinfo=None)
+                cell_value = cell_value.strftime("%b %d, %Y, %I:%M:%p")
             cell = worksheet.cell(row=row_num+1, column=col_num)
             cell.value = cell_value
-
+            
     workbook.save(response)
 
     return response 
