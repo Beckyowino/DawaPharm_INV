@@ -129,15 +129,15 @@ def sales_report(request):
 
 def generate_sales_report(request, total_sales):
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="mydata.xlsx"'
+    response['Content-Disposition'] = 'attachment; filename="salesreport.xlsx"'
 
     workbook = openpyxl.Workbook()
     workbook.iso_dates = True
     worksheet = workbook.active
-    worksheet.title = 'My Data'
+    worksheet.title = 'Dawa Pharmacy Sales Report'
 
     # Write header row
-    header = ['Order ID', 'Product', 'Quantity', 'Price', 'Total', 'Date', 'Status']
+    header = ['Order ID', 'Product', 'Quantity', 'Price (Ksh)', 'Total (Ksh)', 'Date', 'Status']
     for col_num, column_title in enumerate(header, 1):
         cell = worksheet.cell(row=1, column=col_num)
         cell.value = column_title

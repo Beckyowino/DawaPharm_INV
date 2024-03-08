@@ -151,7 +151,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "milicentrebecca@gmail.com"
-EMAIL_HOST_PASSWORD = "pjwccrebohyoztyj"
+EMAIL_HOST_PASSWORD = "pjwc creb ohyo ztyj"
 
 MIN_STOCK_QUANTITY = 4
 EMAIL_SUPPLIER = "7430.2020@students.ku.ac.ke"

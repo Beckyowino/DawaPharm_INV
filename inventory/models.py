@@ -4,6 +4,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import date
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 CATEGORY = (
     ("Supplements", "Supplements"),
@@ -40,6 +43,21 @@ class Product(models.Model):
     @property
     def is_expired(self):
         return self.expiry_date < date.today()
+    
+    def send_expiry_notification(self):
+        if self.is_expired:
+                    pharmacist = User.objects.filter(groups__name__iexact='Pharmacist').first()
+                    subject = f"PRODUCT '{Order.product.name}' HAS EXPIRED"
+                    message = f"Product '{Order.product.name}' expiry date is today."
+
+                    send_mail(
+                        subject=subject,
+                        message=message,
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=[pharmacist.email],
+                        fail_silently=False,
+
+                    )
 
 class Order(models.Model):
     STATUS_CHOICES = (
