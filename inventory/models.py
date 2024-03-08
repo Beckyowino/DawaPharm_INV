@@ -35,7 +35,7 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(null=True)
     description = models.CharField(max_length=200, null=True)
     expiry_date = models.DateField(default=timezone.now, null=True)
-    price= models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     def __str__(self) -> str:
         return self.name

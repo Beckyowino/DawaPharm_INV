@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http import HttpResponse
+import openpyxl, datetime
+
 
 # Register your models here.
 # inventory/admin.py
@@ -38,9 +41,42 @@ class ProductAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     model = Order
-    list_display = ("product", "created_by", "order_quantity", "date")
-    list_filter = ["date"]
+    list_display = ("product", "created_by", "order_quantity", "date", "client")
+    list_filter = ["date", "product", "client"]
     search_fields = ["product"]
+    actions = ["download_report"]
+
+    @admin.action(description="Download report required")
+    def download_report(self, request, queryset):
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="salesreport.xlsx"'
+
+        workbook = openpyxl.Workbook()
+        workbook.iso_dates = True
+        worksheet = workbook.active
+        worksheet.title = 'Dawa Pharmacy Sales Report'
+
+        # Write header row
+        header = ['Product', 'Created_by', 'Order quantity', 'Date', "Client"]
+        for col_num, column_title in enumerate(header, 1):
+            cell = worksheet.cell(row=1, column=col_num)
+            cell.value = column_title
+
+        queryset = queryset.values_list("product__name", "created_by__username", "order_quantity", "date", "client")
+        row_num = 2
+        
+        for row in queryset:
+            for col_num, cell_value in enumerate(row, 1):
+                if col_num == 4:
+                    cell_value = cell_value.replace(tzinfo=None)
+                    cell_value = cell_value.strftime("%b %d, %Y, %I:%M:%p")
+                cell = worksheet.cell(row=row_num, column=col_num)
+                cell.value = cell_value
+
+            row_num += 1
+                
+        workbook.save(response)
+        return response
 
 class UserProfileAdmin(admin.ModelAdmin):
     model = UserProfile
