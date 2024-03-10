@@ -8,7 +8,7 @@ from inventory.models import Product, Order
 from django.db.models import Sum
 from django.http import HttpResponse
 import openpyxl, datetime
-
+from django.template.loader import render_to_string
 
 @login_required
 def index(request):
@@ -118,15 +118,14 @@ def sales_report(request):
     context = {
         "title": "Sales Report",
         "orders_by_date": orders_by_date,
-        "total_sales": total_sales
-
+        "total": total_sales
     }
     if request.method == "POST" and request.POST.get("download_excel"):
         return generate_sales_report(request, total_sales)
     else:
         # Return an HttpResponse if the request method is not POST
         return render(request, "inventory/sales_report.html", context)
-
+    
 def generate_sales_report(request, total_sales):
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="salesreport.xlsx"'
@@ -155,6 +154,6 @@ def generate_sales_report(request, total_sales):
             cell.value = cell_value
             
     workbook.save(response)
-
     return response 
+
 

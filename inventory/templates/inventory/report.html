@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report</title>
+  <style>
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+  </style>
+</head>
+<body>
+<h1>Sales Report</h1>
+<h2>Total Sales: {{ total_sales }}</h2>
+
+<table>
+  <tr>
+    <th>ORDER ID</th>
+    <th>CUSTOMER</th>
+    <th>PRODUCT</th>
+    <th>QTY</th>
+    <th>PRICE</th>
+    <th>TOTAL</th>
+    <th>DATE</th>
+  </tr>
+  {% for order in orders %}
+  <tr>
+    <td>{{ order.id }}</td>
+    <td>{{ order.client }}</td>
+    <td>{{ order.product }}</td>
+    <td>{{ order.order_quantity }}</td>
+    <td>{{ order.product.price }}</td>
+    <td>{{ order.get_total }}</td>
+    <td>{{ order.date }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>
+

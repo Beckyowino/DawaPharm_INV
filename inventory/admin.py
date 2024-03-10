@@ -1,9 +1,12 @@
+import io
+
 from django.contrib import admin
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import HttpResponse
 import openpyxl, datetime
-
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 # Register your models here.
 # inventory/admin.py
@@ -44,10 +47,27 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ("product", "created_by", "order_quantity", "date", "client")
     list_filter = ["date", "product", "client"]
     search_fields = ["product"]
-    actions = ["download_report"]
+    actions = ["download_excel_report", "download_pdf_report"]
 
-    @admin.action(description="Download report required")
-    def download_report(self, request, queryset):
+    @admin.action(description="Download PDF Report")
+    def download_pdf_report(self, request, queryset):
+        total_sales = sum(order.get_total() for order in queryset)
+        context = {
+            "title": "Sales Report",
+            "orders": queryset,
+            "total_sales": total_sales
+        }
+        html = render_to_string('inventory/report.html', context)
+        with io.BytesIO() as buf:
+            buf.name = "salesreport.pdf"
+            HTML(string=html).write_pdf(buf)
+            response = HttpResponse(buf.getvalue(), content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="salesreport.pdf"'
+
+        return response
+
+    @admin.action(description="Download Excel Report")
+    def download_excel_report(self, request, queryset):
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename="salesreport.xlsx"'
 
