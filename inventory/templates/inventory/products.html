@@ -1,15 +1,21 @@
 {% extends 'inventory/base.html' %}
 {% block title %}{{ header }} {% endblock %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags custom_tags %}
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-md-8">
+            <form id="search-form" action="{{search_url}}" method="GET">
+                <input type="text" name="search" placeholder="Search products..." autocomplete="off" value="{{search}}" >
+                <button type="submit">Search</button>
+            </form>
+        
             <table class="table">
 
                 <thead>
                     <tr>
                         <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Category</th>
                         <th scope="col">Description</th>
@@ -19,14 +25,20 @@
                     {% for product in products %}
                     <tr>
                         <td>{{ product.name }}</td>
+                        <td>{{ prices|get:product.name }}</td>
                         <td>{{ product.quantity }}</td>
                         <td>{{ product.category }}</td>
                         <td>{{ product.description }}</td>
                     </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="5">No products found.</td>
+                    </tr>            
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
 {% endblock %}

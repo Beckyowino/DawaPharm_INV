@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'inventory',
     'crispy_forms',
-    'crispy_bootstrap5'
+    'crispy_bootstrap5',
+    'bootstrap4'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -144,6 +145,8 @@ LOGIN_REDIRECT_URL = 'user'
 LOGOUT_REDIRECT_URL = 'user'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
@@ -151,3 +154,4 @@ EMAIL_HOST_USER = "milicentrebecca@gmail.com"
 EMAIL_HOST_PASSWORD = "pjwc creb ohyo ztyj"
 
 MIN_STOCK_QUANTITY = 4
+EMAIL_SUPPLIER = "7430.2020@students.ku.ac.ke"
