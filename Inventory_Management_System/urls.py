@@ -38,7 +38,7 @@ urlpatterns = [
     path(
         "logout/",
         auth.LogoutView.as_view(template_name="inventory/logout.html"),
-        name="logout",
+        name="logout"
     ),
 ] 
 

@@ -118,7 +118,7 @@ def sales_report(request):
     context = {
         "title": "Sales Report",
         "orders_by_date": orders_by_date,
-        "total": total_sales
+        "total_sales": total_sales
     }
     if request.method == "POST" and request.POST.get("download_excel"):
         return generate_sales_report(request, total_sales)

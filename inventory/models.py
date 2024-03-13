@@ -36,28 +36,30 @@ class Product(models.Model):
     description = models.CharField(max_length=200, null=True)
     expiry_date = models.DateField(default=timezone.now, null=True)
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-
+    reorder_date = models.DateTimeField(null=True, blank=True)  
     def __str__(self) -> str:
         return self.name
     
+"""    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        if self.is_expired:
+            pharmacist = User.objects.filter(groups__name__iexact='Pharmacist').first()
+            subject = f"PRODUCT '{Order.product.name}' HAS EXPIRED"
+            message = f"Product '{Order.product.name}' expiry date is today."
+
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[pharmacist.email],
+                fail_silently=False,
+            )
+
     @property
     def is_expired(self):
         return self.expiry_date < date.today()
-    
-    def send_expiry_notification(self):
-        if self.is_expired:
-                    pharmacist = User.objects.filter(groups__name__iexact='Pharmacist').first()
-                    subject = f"PRODUCT '{Order.product.name}' HAS EXPIRED"
-                    message = f"Product '{Order.product.name}' expiry date is today."
-
-                    send_mail(
-                        subject=subject,
-                        message=message,
-                        from_email=settings.EMAIL_HOST_USER,
-                        recipient_list=[pharmacist.email],
-                        fail_silently=False,
-
-                    )
+"""
 
 class Order(models.Model):
     STATUS_CHOICES = (
