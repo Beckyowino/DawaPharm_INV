@@ -17,6 +17,5 @@ urlpatterns = [
     path('generate_sales_report/', views.generate_sales_report, name='generate_sales_report'),
     path('logout/', auth_views.LogoutView.as_view(next_page="home"), name="logout"),
 
-
 ]
 
