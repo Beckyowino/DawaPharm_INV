@@ -115,12 +115,6 @@ def register(request):
     context = {"register": "Register", "form": form}
     return render(request, "inventory/register.html", context)
 
-def completed_orders():
-    return Order.objects.filter(status='completed')
-
-def cancelled_orders():
-    return Order.objects.filter(status='cancelled')
-
 @login_required
 def sales_report(request):
     orders_by_date = Order.objects.order_by('date')
@@ -147,7 +141,7 @@ def generate_sales_report(request, total_sales):
     worksheet.title = 'Dawa Pharmacy Sales Report'
 
     # Write header row
-    header = ['Order ID', 'Product', 'Quantity', 'Price (Ksh)', 'Total (Ksh)', 'Date', 'Status']
+    header = ['Order ID', 'Product', 'Quantity', 'Price (Ksh)', 'Total (Ksh)', 'Date']
     for col_num, column_title in enumerate(header, 1):
         cell = worksheet.cell(row=1, column=col_num)
         cell.value = column_title
@@ -155,7 +149,7 @@ def generate_sales_report(request, total_sales):
     # Write data rows
     queryset = Order.objects.all().annotate(
         total=F('order_quantity')*F('product__price')
-        ).values_list("id", "product__name", "order_quantity", "product__price", "total", "date" ,"status")
+        ).values_list("id", "product__name", "order_quantity", "product__price", "total", "date")
     for row_num, row in enumerate(queryset, 1):
         for col_num, cell_value in enumerate(row, 1):
             if col_num == 6:

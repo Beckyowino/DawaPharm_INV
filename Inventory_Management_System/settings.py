@@ -142,8 +142,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH_USER_MODEL = 'inventory.User'
 
-LOGIN_REDIRECT_URL = 'user'
-LOGOUT_REDIRECT_URL = 'user'
+LOGIN_REDIRECT_URL = '/user/'
+LOGOUT_REDIRECT_URL = '/home/'
+LOGIN_URL = '/login/'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 #EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

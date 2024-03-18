@@ -6,7 +6,6 @@ from datetime import date
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.conf import settings
-from django.shortcuts import redirect
 
 CATEGORY = (
     ("Supplements", "Supplements"),
@@ -40,16 +39,11 @@ class Product(models.Model):
         return self.name
     
 class Order(models.Model):
-    STATUS_CHOICES = (
-        ('COMPLETED', 'Completed'),
-        ('CANCELLED', 'Cancelled'),
-    )
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     created_by = models.ForeignKey(User, models.CASCADE, null=True)
     order_quantity = models.PositiveIntegerField(null=True)
     date = models.DateTimeField(auto_now_add=True)
     client = models.CharField(max_length=60)
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='COMPLETED')
 
     def __str__(self) -> str:
         return f"{self.product} ordered quantity {self.order_quantity}"
@@ -69,14 +63,3 @@ class SalesInvoice(models.Model):
     def _str_(self):
         return self.invoice_no
     
-class LoginRequiredMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        if not request.user.is_authenticated and not request.path.startswith('/accounts/'):
-            # Redirect to login page or display custom notification
-            return redirect('/accounts/login/?next=' + request.path)
-
-        response = self.get_response(request)
-        return response

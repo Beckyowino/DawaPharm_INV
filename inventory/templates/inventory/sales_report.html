@@ -15,7 +15,6 @@
         <th>Price</th>
         <th>Total</th>
         <th>Date</th>
-        <th>Status</th>
       </tr>
     </thead>
 
@@ -29,7 +28,6 @@
           <td>{{ order.product.price }}</td>
           <td>{{ order.get_total }}</td>
           <td>{{ order.date }}</td>
-          <td>{{ order.status}}</td>
         </tr>
       {% empty %}
         <tr>

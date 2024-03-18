@@ -27,7 +27,6 @@
             <th scope="col">Total</th>
             <th scope="col">Client</th>
             <th scope="col">Order Date</th>
-            <th scope="col">Status</th>
 
           </tr>
         </thead>
@@ -41,7 +40,6 @@
             <td>Sh{{ order.get_total }}</td>
             <td>{{ order.client }}</td>
             <td>{{ order.date }}</td>
-            <td>{{ order.status}}</td>
  
           </tr>
           {% endfor %}
@@ -57,7 +55,6 @@
             <td>{{ order.total }}</td>
             <td>{{ order.client }}</td>
             <td>{{ order.date }}</td>
-            <td>{{ order.status }}</td>
 
           </tr>
           {% endif %}
