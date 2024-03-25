@@ -13,7 +13,7 @@ from django.db.models import Q
 
 # Register your models here.
 # inventory/admin.py
-from inventory.models import Product, Order, UserProfile, SalesInvoice
+from inventory.models import Product, Order, UserProfile
 
 admin.site.site_header = "Inventory Admin"
 
@@ -176,4 +176,3 @@ class UserProfileAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(UserProfile, UserProfileAdmin) 
-admin.site.register(SalesInvoice)

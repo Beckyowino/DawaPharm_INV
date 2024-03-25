@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import F
 from inventory.forms import UserRegistry, ProductForm, OrderForm
-from inventory.models import Product, Order, SalesInvoice
+from inventory.models import Product, Order
 from django.db.models import Sum
 from django.http import HttpResponse
 import openpyxl, datetime
@@ -81,17 +81,6 @@ def orders(request):
         form = OrderForm()
     context = {"title": "Orders", "orders": orders, "form": form}
     return render(request, "inventory/orders.html", context)
-
-@login_required
-def sales_invoice(request, invoice_id):
-    sales_invoice = get_object_or_404(SalesInvoice, id=invoice_id)
-
-    context = {
-        'sales_invoice': sales_invoice
-    }
-
-    return render(request, 'inventory/sales_invoice.html', context)
-
 
 @login_required
 def users(request):
