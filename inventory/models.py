@@ -6,6 +6,8 @@ from datetime import date
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.exceptions import ValidationError
+
 
 CATEGORY = (
     ("Supplements", "Supplements"),
@@ -38,9 +40,21 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    def stock_total_value(self):
+        return self.quantity * self.price
+    
+    def clean(self):
+        if self.price <= 0:
+                raise ValidationError("Price must be greater than zero.")
+        if self.quantity <= 0:
+                raise ValidationError("Quantity must be greater than zero.")
+
+    def save(self, *args, **kwargs):
+            self.full_clean()
+            super().save(*args, **kwargs)
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-    created_by = models.ForeignKey(User, models.CASCADE, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     order_quantity = models.PositiveIntegerField(null=True)
     date = models.DateTimeField(auto_now_add=True)
     client = models.CharField(max_length=60)
@@ -50,5 +64,4 @@ class Order(models.Model):
 
     def get_total(self):
         return self.order_quantity * self.product.price
-    
     

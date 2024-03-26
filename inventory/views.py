@@ -57,21 +57,20 @@ def products(request):
             return redirect("products")
     else:
         form = ProductForm()
-
         prices = {product.name: product.price for product in products}
-
+        total_stock_value = sum(product.stock_total_value() for product in products)
         context = {
             "title": "Products", "products": products, "form": form, "prices": prices,
-            "search": search,
+            "search": search, 'total_stock_value': total_stock_value,
+
         }
         return render(request, "inventory/products.html", context)
-
+    
 @login_required
 def orders(request):
     orders = Order.objects.all()
-    print([i for i in request])
+    form = OrderForm(request.POST  or None)
     if request.method == "POST":
-        form = OrderForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.created_by = request.user
@@ -79,9 +78,9 @@ def orders(request):
             return redirect("orders")
     else:
         form = OrderForm()
+
     context = {"title": "Orders", "orders": orders, "form": form}
     return render(request, "inventory/orders.html", context)
-
 @login_required
 def users(request):
     users = User.objects.all()

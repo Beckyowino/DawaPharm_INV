@@ -3,7 +3,7 @@
 
 {% block content %}
   <h1>{{ title }}</h1>
-  <h2>Total Sales: {{ total_sales }}</h2>
+  <h2>Total Sales: Sh {{ total_sales }}</h2>
 
   <table class="table table-bordered">
     <thead>
@@ -37,9 +37,11 @@
     </tbody>
 
   </table>
+  {% if user.is_staff %}
   <form method="post" action=".">
     {% csrf_token %}
     <button type="submit" name="download_excel" value="true">Download Excel</button>
-</form>
+  </form>
+  {% endif %}
 
 {% endblock %}

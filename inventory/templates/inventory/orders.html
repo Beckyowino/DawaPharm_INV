@@ -12,42 +12,12 @@
         {{ form|crispy}}
 
         <br>
-        {% if user.is_staff and user.is_superuser %}
+        {% if user.is_staff %}
         <button type="submit" class="btn btn-primary">Create Order</button>
       </form>
       {% endif %}
     </div>
     </div>
 
-    <div class="col-md-8">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Ordered Product</th>
-            <th scope="col">Created by</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total</th>
-            <th scope="col">Client</th>
-            <th scope="col">Order Date</th>
-
-          </tr>
-        </thead>
-        {% if user.is_staff and user.is_superuser %}
-        <tbody>
-          {% for order in orders %}
-          <tr>
-            <td>{{ order.product }}</td>
-            <td>{{ order.created_by.username }}</td>
-            <td>{{ order.order_quantity }}</td>
-            <td>Sh{{ order.get_total }}</td>
-            <td>{{ order.client }}</td>
-            <td>{{ order.date }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-        {% endif %}
-      </table>
-    </div>
 </div>
-
 {% endblock %}
