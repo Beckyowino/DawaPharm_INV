@@ -20,7 +20,7 @@ def index(request):
     all_prods = len(Product.objects.all())
     all_orders = len(Order.objects.all())
     context = {
-        "title": "Home",
+        "title": "Home Page",
         "orders": orders_user,
         "orders_adm": orders_adm,
         "users": users,
