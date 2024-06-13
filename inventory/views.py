@@ -20,7 +20,7 @@ def index(request):
     all_prods = len(Product.objects.all())
     all_orders = len(Order.objects.all())
     context = {
-        "title": "Home",
+        "title": "Home Page",
         "orders": orders_user,
         "orders_adm": orders_adm,
         "users": users,
@@ -57,21 +57,20 @@ def products(request):
             return redirect("products")
     else:
         form = ProductForm()
-
         prices = {product.name: product.price for product in products}
-
+        total_stock_value = sum(product.stock_total_value() for product in products)
         context = {
             "title": "Products", "products": products, "form": form, "prices": prices,
-            "search": search,
+            "search": search, 'total_stock_value': total_stock_value,
+
         }
         return render(request, "inventory/products.html", context)
-
+    
 @login_required
 def orders(request):
     orders = Order.objects.all()
-    print([i for i in request])
+    form = OrderForm(request.POST  or None)
     if request.method == "POST":
-        form = OrderForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.created_by = request.user
@@ -79,9 +78,9 @@ def orders(request):
             return redirect("orders")
     else:
         form = OrderForm()
+
     context = {"title": "Orders", "orders": orders, "form": form}
     return render(request, "inventory/orders.html", context)
-
 @login_required
 def users(request):
     users = User.objects.all()
@@ -104,12 +103,6 @@ def register(request):
     context = {"register": "Register", "form": form}
     return render(request, "inventory/register.html", context)
 
-def completed_orders():
-    return Order.objects.filter(status='completed')
-
-def cancelled_orders():
-    return Order.objects.filter(status='cancelled')
-
 @login_required
 def sales_report(request):
     orders_by_date = Order.objects.order_by('date')
@@ -118,7 +111,7 @@ def sales_report(request):
     context = {
         "title": "Sales Report",
         "orders_by_date": orders_by_date,
-        "total": total_sales
+        "total_sales": total_sales
     }
     if request.method == "POST" and request.POST.get("download_excel"):
         return generate_sales_report(request, total_sales)
@@ -136,7 +129,7 @@ def generate_sales_report(request, total_sales):
     worksheet.title = 'Dawa Pharmacy Sales Report'
 
     # Write header row
-    header = ['Order ID', 'Product', 'Quantity', 'Price (Ksh)', 'Total (Ksh)', 'Date', 'Status']
+    header = ['Order ID', 'Product', 'Quantity', 'Price (Ksh)', 'Total (Ksh)', 'Date']
     for col_num, column_title in enumerate(header, 1):
         cell = worksheet.cell(row=1, column=col_num)
         cell.value = column_title
@@ -144,7 +137,7 @@ def generate_sales_report(request, total_sales):
     # Write data rows
     queryset = Order.objects.all().annotate(
         total=F('order_quantity')*F('product__price')
-        ).values_list("id", "product__name", "order_quantity", "product__price", "total", "date" ,"status")
+        ).values_list("id", "product__name", "order_quantity", "product__price", "total", "date")
     for row_num, row in enumerate(queryset, 1):
         for col_num, cell_value in enumerate(row, 1):
             if col_num == 6:

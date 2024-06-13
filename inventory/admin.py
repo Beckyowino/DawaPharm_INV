@@ -1,22 +1,25 @@
 import io
-
 from django.contrib import admin
 from django.conf import settings
 from django.core.mail import send_mail
+from django.db.models.query import QuerySet
 from django.http import HttpResponse
-import openpyxl, datetime
+import openpyxl
 from django.template.loader import render_to_string
 from weasyprint import HTML
+from datetime import datetime
+from django.utils import timezone
+from django.db.models import Q
 
 # Register your models here.
 # inventory/admin.py
-from inventory.models import Product, Order, UserProfile, SalesInvoice
+from inventory.models import Product, Order, UserProfile
 
 admin.site.site_header = "Inventory Admin"
 
 class ProductAdmin(admin.ModelAdmin):
     model = Product
-    list_display = ("name", "category", "quantity", "price")
+    list_display = ("name", "category", "quantity", "price", "reorder_date")
     list_filter = ["category"]
     search_fields = ["name"]
     list_editable = ["quantity", "price"]
@@ -25,27 +28,93 @@ class ProductAdmin(admin.ModelAdmin):
     @admin.action(description="Reorder products that are below minimum stock level")
     def reorder_product_from_supplier(self, request, queryset):
         message = ''
+        current_datetime = timezone.localtime(timezone.now())
+
         for product in queryset:
             if product.quantity <= settings.MIN_STOCK_QUANTITY:
-                reorder_quantity = 10 - product.quantity
+                reorder_quantity = 10
                 print(f"Reordering {reorder_quantity} units of {product.name}")
                 product.quantity += reorder_quantity
+                product.reorder_date = current_datetime
                 product.save()
+                print(f"Reordered {reorder_quantity} units of {product.name}")
                 message += f"{product.name}: {reorder_quantity}.\n"
 
-        message = "Please supply me with the requested quantities for the following products:\n" + message
-        send_mail(
-            subject="REQUEST FOR PRODUCTS SUPPLY",
-            message=message,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.EMAIL_SUPPLIER],
-            fail_silently=False,
+        if message:
+            message = "Please supply me with the requested quantities for the following products by 8:00 PM today:\n" + message
+            send_mail(
+                subject="REQUEST FOR PRODUCTS SUPPLY",
+                message=message,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[settings.EMAIL_SUPPLIER],
+                fail_silently=False,
+            )
+            self.message_user(request, "Reorder notifications sent to the supplier.")
+
+        else:
+            self.message_user(request, "No products require reordering.")
+
+class InputFilter(admin.SimpleListFilter):
+    template = 'admin/input_filter.html'
+
+    def queryset(self, request, queryset):
+        pass
+
+    def lookups(self, request, model_admin):
+        # Dummy, required to show the filter.
+        return ((),)
+
+    def choices(self, changelist):
+        # Grab only the "all" option.
+        all_choice = next(super().choices(changelist))
+        all_choice['query_parts'] = (
+            (k, v)
+            for k, v in changelist.get_filters_params().items()
+            if k != self.parameter_name
         )
+        yield all_choice
+
+
+class ProductFilter(InputFilter):
+    parameter_name = 'product'
+    title = 'Product'
+
+    def queryset(self, request, queryset):
+        term = self.value()
+
+        if term is None:
+            return
+
+        product = Q()
+        for bit in term:
+            product &= (
+                Q(product__name__icontains=bit)
+            )
+
+        return queryset.filter(product)
+
+class ClientFilter(InputFilter):
+    parameter_name = 'client'
+    title = 'Client'
+
+    def queryset(self, request, queryset):
+        term = self.value()
+
+        if term is None:
+            return
+
+        product = Q()
+        for bit in term:
+            client &= (
+                Q(client__name__icontains=bit)
+            )
+
+        return queryset.filter(client)
 
 class OrderAdmin(admin.ModelAdmin):
     model = Order
     list_display = ("product", "created_by", "order_quantity", "date", "client")
-    list_filter = ["date", "product", "client"]
+    list_filter = ["date", "product", "client", ClientFilter, ProductFilter]
     search_fields = ["product"]
     actions = ["download_excel_report", "download_pdf_report"]
 
@@ -97,7 +166,7 @@ class OrderAdmin(admin.ModelAdmin):
                 
         workbook.save(response)
         return response
-
+    
 class UserProfileAdmin(admin.ModelAdmin):
     model = UserProfile
     list_display = ("user", "physical_address", "mobile", "picture")
@@ -107,4 +176,3 @@ class UserProfileAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(UserProfile, UserProfileAdmin) 
-admin.site.register(SalesInvoice)

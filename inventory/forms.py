@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from inventory.models import Product, Order
 from django.core.exceptions import ValidationError
-
 class UserRegistry(UserCreationForm):
     email = forms.EmailField()
 
@@ -19,11 +18,10 @@ class UserRegistry(UserCreationForm):
             "password2",
         ]
 
-
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "category", "quantity", "description", "price", "expiry_date" ]
+        fields = ["name", "category", "quantity", "description", "price" ]
 
 class OrderForm(forms.ModelForm):
     class Meta:

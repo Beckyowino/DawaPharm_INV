@@ -14,13 +14,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-"""from django.contrib import admin
-from django.urls import path, include
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('inventory.urls'))
-]"""
 
 # IMS/urls.py
 from django.conf import settings
@@ -38,7 +31,7 @@ urlpatterns = [
     path(
         "logout/",
         auth.LogoutView.as_view(template_name="inventory/logout.html"),
-        name="logout",
+        name="logout"
     ),
 ] 
 
